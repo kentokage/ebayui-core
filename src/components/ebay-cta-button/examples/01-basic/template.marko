@@ -1,1 +1,8 @@
-<ebay-cta-button href="https://www.ebay.com">cta text</ebay-cta-button>
+import knobs from '../knobs';
+$ const {
+    size,
+    text,
+    href
+} = knobs();
+
+<ebay-cta-button href=href size=size>${text}</ebay-cta-button>
