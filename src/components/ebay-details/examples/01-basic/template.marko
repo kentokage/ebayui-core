@@ -1,4 +1,13 @@
-<ebay-details text="details">
+import knobs from '../knobs';
+$ const {
+    text,
+    type,
+    size,
+    open,
+    as
+} = knobs();
+
+<ebay-details text=text type=type size=size open=open as=as>
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
     Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
     Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
