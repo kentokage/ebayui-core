@@ -32,6 +32,11 @@ export default {
             control: { type: 'boolean' },
             description: 'whether listbox width is 100% ',
         },
+        floatingLabel: {
+            type: 'boolean',
+            control: { type: 'boolean' },
+            description: 'shows floating label',
+        },
         buttonName: {
             control: { type: 'text' },
             description: 'used for the `name` attribute of the native `<button>` ',

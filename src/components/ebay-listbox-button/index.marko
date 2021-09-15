@@ -18,6 +18,21 @@ $ var selectedOption = input.options[state.selectedIndex];
 $ var selectedText = selectedOption && selectedOption.text;
 $ var labelId = input.prefixId && component.getElId("label");
 
+<style>
+    .listbox-button__label {
+        padding-top: 2px;
+        position: absolute;
+        overflow: hidden;
+        pointer-events: none;
+        text-overflow: ellipsis;
+        transform: scale(.75,.75) translate(0,-20px);
+        transform-origin: left;
+        white-space: nowrap;
+        width: calc(100% - 5px);
+        z-index: 1;
+    }
+</style>
+
 <${input.truncate && !input.fluid ? "div" : "span"}
     ...processHtmlAttributes(input, ignoredAttributes)
     key="container"
@@ -40,10 +55,14 @@ $ var labelId = input.prefixId && component.getElId("label");
         aria-haspopup="listbox"
         aria-labelledby=(labelId && `${input.prefixId} ${labelId}`)
         aria-invalid=(input.invalid && "true")>
-        <span class="expand-btn__cell">
-            <if (input.prefixLabel)>
-                <span>${input.prefixLabel} ${selectedText}</span>
+        <span class="expand-btn__cell floating-label">
+            <if (input.prefixLabel && input.floatingLabel && selectedText)>
+                <label class="listbox-button__label">${input.prefixLabel}</label>
+                <span id=labelId>${selectedText}</span>
             </if>
+            <else-if (input.prefixLabel)>
+                <span>${input.prefixLabel} ${selectedText}</span>
+            </else-if>
             <else>
                 <span id=labelId>${selectedText}</span>
             </else>
