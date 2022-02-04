@@ -1,10 +1,10 @@
 const { getDSFlags } = require('../src/common/ds-util');
-const AdaptivePlugin = require('arc-webpack');
-const dsVersion = getDSFlags(process.env.DS);
 
+const AdaptivePlugin = require('arc-webpack');
+
+const dsVersion = getDSFlags(process.env.DS);
 module.exports = {
     stories: ['../src/**/*.stories.js'],
-
     addons: [
         './plugins/theme-switcher/register.jsx',
         '@storybook/addon-essentials',
@@ -20,10 +20,15 @@ module.exports = {
         });
 
         config.module.rules.push({
+            test: /\.m?js$/,
+            resolve: {
+                fullySpecified: false,
+            },
+        });
+        config.module.rules.push({
             test: /\.txt$/,
             type: 'asset/source',
         });
-
         config.module.rules = [
             {
                 oneOf: [
