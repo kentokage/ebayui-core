@@ -1,0 +1,90 @@
+import type { FilePreviewCardMenuAction } from "./component";
+$ const {
+    a11yCancelUploadText,
+    content,
+    deleteText,
+    file,
+    isSeeMore,
+    isUploading,
+    labelText,
+    menuActions: menuActionsInput,
+    seeMoreText,
+    ...htmlInput
+} = input;
+$ const isImage = file?.type?.startsWith("image");
+$ const isVideo = file?.type?.startsWith("video");
+$ const fileExt = file?.name?.split(".").pop()?.toUpperCase();
+$ const deleteMenuAction: FilePreviewCardMenuAction = {
+    event: "delete",
+    label: deleteText as string,
+};
+$ const menuActions = [...(menuActionsInput || []), deleteMenuAction];
+
+<div class="file-preview-card" ...htmlInput>
+    <div class=[
+        "file-preview-card__body",
+        {
+            "file-preview-card__body--overflow": isSeeMore,
+        },
+    ]>
+        <if(isUploading)>
+            <ebay-progress-spinner size="large"/>
+        </if>
+        <else-if(content)>
+            <${content}/>
+        </else-if>
+        <!-- need to figure out how to preload a file -->
+        <else-if(isImage)>
+            <img src=component.getFileURL(file) alt=file.name>
+        </else-if>
+        <else-if(isVideo)>
+            <video src=component.getFileURL(file)/>
+        </else-if>
+        <else>
+            <ebay-file-24-icon class="file-preview-card__general-icon"/>
+        </else>
+    </div>
+    <if(!isSeeMore)>
+        <div class="file-preview-card__menu-action">
+            <if(isUploading)>
+                <ebay-icon-button aria-label=a11yCancelUploadText>
+                    <ebay-close-16-icon/>
+                </ebay-icon-button>
+            </if>
+            <else>
+                <if(menuActions?.length)>
+                    <ebay-menu-button variant="overflow">
+                        <for|action| of=menuActions || []>
+                            <@item>${action.label}</@item>
+                        </for>
+                    </ebay-menu-button>
+                </if>
+                <else>
+                    <ebay-icon-button aria-label=deleteText>
+                        <ebay-delete-16-icon/>
+                    </ebay-icon-button>
+                </else>
+            </else>
+        </div>
+        <if(!isImage)>
+            <div class="file-preview-card__preview-action">
+                <ebay-icon-button>
+                    <if(isVideo)>
+                        <ebay-play-16-icon class="file-preview-card__video-icon"/>
+                        <if(labelText)>
+                            <span>${labelText}</span>
+                        </if>
+                    </if>
+                    <else>${fileExt}</else>
+                </ebay-icon-button>
+            </div>
+        </if>
+    </if>
+    <else>
+        <div class="file-preview-card__body-action">
+            <ebay-icon-button>
+                <span>${seeMoreText}</span>
+            </ebay-icon-button>
+        </div>
+    </else>
+</div>

@@ -1,0 +1,73 @@
+import { processHtmlAttributes } from "../../common/html-attributes";
+$ const { title, renderBody, subtitle, ...htmlInput } = input;
+$ const {
+    id: titleId,
+    as: titleAs,
+    class: titleClass,
+    renderBody: titleRenderBody,
+    ...titleHtmlInput
+} = title || ({} as NonNullable<typeof title>);
+$ const {
+    id: subtitleId,
+    class: subtitleClass,
+    renderBody: subtitleRenderBody,
+    ...subtitleHtmlInput
+} = subtitle || ({} as NonNullable<typeof subtitle>);
+
+<div
+    class=["file-upload-input"]
+    on-dragenter("handleDragEnter")
+    on-dragleave("handleDragLeave")
+    on-dragover("handleDragOver")
+    on-drop("handleDrop")
+>
+    <input
+        id:scoped="file-upload-input"
+        key:scoped="file-upload-input"
+        class="file-upload-input__input"
+        type="file"
+        ...processHtmlAttributes(htmlInput)
+    >
+    <div
+        class=[
+            "file-upload-input__container",
+            {
+                "file-upload-input___container--dragged-over":
+                    state.draggedOver,
+            },
+        ]
+        key:scoped="file-upload-input__container"
+    >
+        <div class="file-upload-input__upload-icon">
+            <ebay-upload-24-icon/>
+        </div>
+        <div class="file-upload-input__content">
+            <if(title)>
+                <${titleAs || "span"}
+                    class=[titleClass, "file-upload-input__content-header"]
+                    ...processHtmlAttributes(titleHtmlInput)
+                    id=titleId
+                >
+                    <${titleRenderBody}/>
+                </>
+            </if>
+            <if(subtitle)>
+                <span
+                    class=[
+                        subtitleClass,
+                        "file-upload-input__content-subheader",
+                    ]
+                    ...processHtmlAttributes(subtitleHtmlInput)
+                    id=subtitleId
+                >
+                    <${subtitleRenderBody}/>
+                </span>
+            </if>
+            <label for:scoped="file-upload-input">
+                <span class="file-upload-input__content-cta">
+                    <${renderBody}/>
+                </span>
+            </label>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+import type { FileUploadInputEvent } from "../component";
+class {
+    handleInput(event: FileUploadInputEvent) {
+        const files: FileList = event.files;
+        const output = document.getElementById("output");
+
+        if (output) {
+            output.innerHTML = "";
+
+            Array.from(files).forEach((file: File) => {
+                const p = document.createElement("p");
+
+                p.textContent = file.name;
+
+                output?.appendChild(p);
+
+                if (file.type.startsWith("image/")) {
+                    const img = document.createElement("img");
+
+                    img.src = URL.createObjectURL(file);
+                    img.height = 128;
+
+                    output?.appendChild(img);
+                } else if (file.type.startsWith("video/")) {
+                    const video = document.createElement("video");
+
+                    video.src = URL.createObjectURL(file);
+                    video.height = 128;
+
+                    output?.appendChild(video);
+                } else if (file.type.startsWith("application/pdf")) {
+                    const embed = document.createElement("embed");
+
+                    embed.src = URL.createObjectURL(file);
+                    embed.width = "128";
+                    embed.height = "128";
+                    embed.type = "application/pdf";
+
+                    output?.appendChild(embed);
+                }
+            });
+        }
+    }
+}
+
+<ebay-file-upload-input multiple on-input("handleInput")>
+    <@subtitle class="subtitleClass" id="subtitleId">
+        <p>Multiple files</p>
+    </@subtitle>
+    <span>Browse files</span>
+</ebay-file-upload-input>
+
+<div id="output"/>
